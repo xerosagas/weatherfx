@@ -5,6 +5,10 @@ export async function weatherRoll(item) {
     // item.use();
     let weatherArray = await jsonItem();
     let weather = weatherArray.find(i => i.id.includes(item))
+    if (!weather) {
+        ui.notifications.error(game.i18n.localize("No weather condition found for ") + item)
+        return;
+    }
     let saveButton = ''
     if (weather.save.dc != null) {
         saveButton = `<div class="card-buttons">
