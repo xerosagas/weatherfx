@@ -22,7 +22,6 @@ Hooks.once("init", () => {
     registerSettings();
     cacheSettings();
     fvttVersion = parseInt(game.version)
-
 });
 
 // Hook that triggers when the game is ready. Check if there is a weather effect been played, then check if sound is enabled and restart the sound that should be played.
