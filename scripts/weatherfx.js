@@ -205,7 +205,7 @@ async function clearEffects() {
     let effectCondition = canvas.scene.getFlag("weatherfx", "effectCondition");
     Hooks.call(particleWeather, []);
     FXMASTER.filters.setFilters([]);
-    if (enableSound && effectCondition.hasSound) {
+    if (enableSound && effectCondition?.hasSound) {
         let playlist = game.playlists.getName(playlistName);
         let sound = playlist.sounds.getName(effectCondition.soundName);
         if (sound) if (sound.playing) {
