@@ -21,11 +21,12 @@ Hooks.once("init", () => {
     checkSystem(game.system.id); //check if dnd5e
     registerSettings();
     cacheSettings();
+    fvttVersion = parseInt(game.version)
+
 });
 
 // Hook that triggers when the game is ready. Check if there is a weather effect been played, then check if sound is enabled and restart the sound that should be played.
 Hooks.once('ready', async function () {
-    fvttVersion = parseInt(game.version)
     lang = game.i18n.lang
     console.log(" ======================================== ⛈ Weather FX  ======================================== ")
     console.log(" =================================== FoundryVTT Version: ", fvttVersion, " =================================== ")
@@ -82,8 +83,12 @@ Hooks.on('smallweatherUpdate', async function (weather, hourly) {
     // await game.settings.set(MODULE, "currentWeather", currentWeather)
     // cacheSettings();
     let sceneAutoApply = game.scenes.viewed.getFlag('weatherfx', 'auto-apply') ? true : false;
-    if (!linkWeatherToGI || canvas.scene.globalLight)
-        if (autoApply && sceneAutoApply) await smallWeatherString(weather, hourly)
+    const globalLightEnabled = fvttVersion < 12 
+        ? canvas.scene.globalLight 
+        : canvas.scene.environment?.globalLight?.enabled;
+
+    if (!linkWeatherToGI || globalLightEnabled)
+        if (autoApply && sceneAutoApply) await smallWeatherString(weather, hourly);
     await game.settings.set(MODULE, 'currentWeather', weather)
 })
 
@@ -149,8 +154,16 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
 });
 
 function defaultAutoApplyFlag(scene) {
-    if (!hasProperty(scene, 'data.flags.weatherfx.auto-apply')) {
-        scene.setFlag('weatherfx', 'auto-apply', autoApply);
+    if (fvttVersion < 12) {
+        if (!hasProperty(scene.data, 'flags.weatherfx.auto-apply')) {
+            scene.setFlag('weatherfx', 'auto-apply', autoApply);
+        }
+        return;
+    }
+    else {
+        if (!foundry.utils.hasProperty(scene.data, 'flags.weatherfx.auto-apply')) {
+            scene.setFlag('weatherfx', 'auto-apply', autoApply);
+        }
     }
 }
 
