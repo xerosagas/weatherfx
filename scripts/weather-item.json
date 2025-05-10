@@ -61,7 +61,7 @@
     },
     {
         "name": "Mostly Cloudy",
-        "id": ["mostlyCloudy"],
+        "id": ["mostlyCloudy", "drizzle"],
         "description": "<p>The sky is mostly blocked. High flying aerial creatures have 3/4 cover. Checks using Navigation Tools to determine your location based on celestial observation have -2.</p>",
         "save": {
             "dc": null,
@@ -111,7 +111,7 @@
     },
     {
         "name": "Moderate Rain",
-        "id": ["moderateRain"],
+        "id": ["moderateRain", "lightRain"],
         "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest.</p>\n<p>The sky is mostly blocked. High flying aerial creatures have 3/4 cover. Checks using Navigation Tools to determine your location based on celestial observation have -2.</p>",
         "save": {
             "dc": 12,
